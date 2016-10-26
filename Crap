@@ -1,0 +1,185 @@
+
+import java.util.*;
+
+public class Crap{
+
+
+	private static final Random randomNumbers = new Random();
+	private static final Scanner input = new Scanner(System.in);//jack's note
+
+	private  enum Status { CONTINUE, WON, LOST };
+
+	private static final int TWO = 2;
+	private static final int THREE = 3;
+	private static final int SEVEN = 7;
+	private static final int ELEVEN = 11;
+	private static final int TWELEVE = 12;
+
+
+
+	public void play() {
+
+		int myPoint = 0;
+		int wager = 0; 
+		int bankBalance = 1000;
+		boolean x = true;
+		Status gameStatus = Status.CONTINUE;
+
+		do {
+			
+			
+			do{
+				
+				x = true;
+				
+				System.out.printf("Enter wager, your balance is %d \n", bankBalance);
+				wager = input.nextInt();
+
+				if (wager > bankBalance || wager < 0 ){
+					System.out.println("Invalid");
+					x = true;
+				} else {
+					x = false;
+				}
+
+			}while(x == true);
+
+			int sumOfDice = rollDice();//roll first dice
+
+			switch (sumOfDice){//first dice outcome
+
+			case SEVEN:
+			case ELEVEN:
+				gameStatus = Status.WON;
+				bankBalance = bankBalance+wager;
+				break;
+
+			case TWO:
+			case THREE:
+			case TWELEVE://2,3,12
+				gameStatus = Status.LOST;
+				bankBalance=bankBalance-wager; 
+				if (bankBalance <= 0)
+					System.out.print("Sorry are Busted!");
+				    x = true; //print you are busted!
+				break;
+
+
+			default://4,5,6,7,8,9
+				gameStatus = Status.CONTINUE;
+				myPoint = sumOfDice;
+				System.out.printf("Point is %d\n", myPoint);
+				break;
+			}
+
+			while(gameStatus == Status.CONTINUE){
+				sumOfDice = rollDice();
+
+				if(sumOfDice == myPoint){
+					gameStatus = Status.WON;
+					bankBalance = bankBalance+wager;
+				}
+				else if (sumOfDice == SEVEN){
+					gameStatus = Status.LOST;
+					bankBalance = bankBalance-wager;
+				}
+			}
+			
+			if (bankBalance <= 0){
+				System.out.printf("New bank balance is %d\n", bankBalance);
+				System.out.print("Sorry, you are Busted!\n");//print you are busted!	
+				x = true;
+			} else {
+				System.out.printf("New bank balance is %d\n", bankBalance);
+				chatter(bankBalance);
+			}
+			
+		}while (bankBalance > 0);
+
+
+	} 
+
+
+
+
+
+
+
+	//method roll dice
+	public int rollDice(){
+
+		int die1 = 1 + randomNumbers.nextInt(6);
+		int die2 = 1 + randomNumbers.nextInt(6);
+
+		int sum = die1 + die2;
+
+		System.out.printf("Player rolled %d + %d = %d \n", die1, die2, sum);
+
+		return sum;
+	}
+
+
+
+
+	//method chatter
+	public  static void chatter(int bankBalance){
+		Random randomNumbers = new Random();
+
+		int chatterString = 1 + randomNumbers.nextInt(3);
+
+		if (bankBalance > 1000){
+			// more than $1000
+			switch(chatterString){
+			case 1:
+				System.out.println("You're up big. Now's the time to cash in your chips!\n");
+				break;
+			case 2:
+				System.out.printf("You worth %d bulks, spend it!\n", bankBalance);
+				break;
+			case 3:
+				System.out.println("C'mon! I gotta a family to feed!\n");
+				break;
+			}
+
+		} else if (bankBalance <= 1000 && bankBalance >= 500){
+			//between $1000 and $500
+			switch(chatterString){
+			case 1:
+				System.out.println("Hey! Wanna try out your luck\n");
+				break;
+			case 2:
+				System.out.printf("You worth %d bulks! I sure you will get more than those!\n", bankBalance);
+				break;
+			case 3:
+				System.out.println("C'mon! I gotta a family to feed!\n");
+				break;
+			}
+		} else {
+			//less than $500 balance
+			switch(chatterString){
+			case 1:
+				System.out.println("It's just Pseudo Random Bumber Generators, you will get more eventually!\n");
+				break;
+			case 2:
+				System.out.printf("You worth %d bulks! Goin' to broke huh!? \n", bankBalance);
+				break;
+			case 3:
+				System.out.println("Though you only got a little, but why don't just go all-in and see what's gonna happen?\n");
+				break;
+			}
+		}
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+}
