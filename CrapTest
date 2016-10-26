@@ -1,0 +1,12 @@
+import java.util.*;
+
+public class Craptest {
+
+	public static void main(String[] args){
+
+		Crap game = new Crap();
+		game.play();
+	}
+}
+
+
