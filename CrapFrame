@@ -1,0 +1,18 @@
+package craptest;
+
+import javax.swing.*;
+
+public class CrapFrame{
+		
+		
+		JFrame crapFrame = new JFrame("Craps");
+		JLabel bankBalanceLabel = new JLabel("%d",bankBalance);
+		
+	
+		
+		
+		
+	
+			
+
+}
